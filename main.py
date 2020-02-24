@@ -17,8 +17,16 @@ for comment in post_forest:
     comment_list = punct_regex.split(comment.body)
     comment_compiled = str()
 
-    for part in comment_list:
-        comment_compiled += part
+    for index in range(0,len(comment_list)):
+        try:
+            print(comment.body)
+        except:
+            continue
+        if index % 2 == 1:
+            continue
+        comment_compiled += comment_list[index]
+        if index+1 < len(comment_list):
+            comment_compiled += comment_list[index + 1]
         if os.path.exists("screenshot_source.html"):
             os.remove("screenshot_source.html")
         htmlfile = open("screenshot_source.html", "w")
@@ -27,7 +35,10 @@ for comment in post_forest:
         htmlfile.write("<body>\n")
         htmlfile.write("<p style=\"font-family:Verdana;font-size:10px;color:#336699;font-weight:700;display:inline;\">[-] </p>\n")
         htmlfile.write("<p style=\"font-family:Verdana;font-size:10px;color:#336699;font-weight:700;display:inline;\">")
-        htmlfile.write(comment.author.name)
+        try:
+            htmlfile.write(comment.author.name)
+        except:
+            htmlfile.write("[deleted]")
         htmlfile.write("</p>\n")
         htmlfile.write("<p style=\"font-family:Verdana;font-size:10px;color:#888888;font-weight:400;display:inline;\">")
         htmlfile.write(str(comment.score))
